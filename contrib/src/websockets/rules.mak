@@ -3,7 +3,7 @@
 WEBSOCKETS_GITURL := https://github.com/warmcat/libwebsockets
 
 $(TARBALLS)/libwebsockets-git.tar.xz:
-	$(call download_git,$(WEBSOCKETS_GITURL),master,7355750)
+	$(call download_git,$(WEBSOCKETS_GITURL),v2.0-stable,15b35bc)
 
 .sum-websockets: libwebsockets-git.tar.xz
 	$(warning $@ not implemented)
@@ -11,7 +11,7 @@ $(TARBALLS)/libwebsockets-git.tar.xz:
 
 websockets: libwebsockets-git.tar.xz .sum-websockets
 	$(UNPACK)
-	$(APPLY) $(SRC)/websockets/remove-werror.patch
+	$(APPLY) $(SRC)/websockets/v2.0-stable-remove-werror.patch
 	$(MOVE)
 
 ifdef HAVE_TIZEN
@@ -27,6 +27,6 @@ ifdef HAVE_TVOS
 endif
 
 .websockets: websockets .zlib .openssl toolchain.cmake
-	cd $< && $(HOSTVARS) CFLAGS="$(CFLAGS) $(EX_ECFLAGS)" $(CMAKE) -DLWS_WITH_SSL=1 -DLWS_WITHOUT_SERVER=1 -DLWS_WITHOUT_TEST_SERVER=1 -DLWS_WITHOUT_TEST_SERVER_EXTPOLL=1 -DLWS_WITHOUT_TEST_PING=1 -DLWS_IPV6=1 $(make_option)
+	cd $< && $(HOSTVARS) CFLAGS="$(CFLAGS) $(EX_ECFLAGS)" $(CMAKE) -DLWS_WITH_SSL=1 -DLWS_WITHOUT_SERVER=1 -DLWS_WITHOUT_TESTAPPS=1 -DLWS_WITHOUT_TEST_SERVER_EXTPOLL=1 -DLWS_WITHOUT_TEST_PING=1 -DLWS_IPV6=1 $(make_option)
 	cd $< && $(MAKE) VERBOSE=1 install
 	touch $@

@@ -1,0 +1,26 @@
+commit ba98d784049caa086d978c050616267b4ad41977
+Author: liangshuochen <liangshuochen@egret.com>
+Date:   Thu Dec 29 11:27:10 2016 +0800
+
+    2.0-stable-removewerror
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index c55af97..f8601ef 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -602,11 +602,11 @@ if (CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX OR (CMAKE_C_COMPILER_ID
+     if (LWS_HAVE_VISIBILITY)
+                 set(VISIBILITY_FLAG -fvisibility=hidden)
+     endif()
+-    if (UNIX)
+-               set(CMAKE_C_FLAGS "-Wall -Werror ${VISIBILITY_FLAG} ${CMAKE_C_FLAGS}" )
+-    else(UNIX)
++    if (UNIX OR LWS_WITH_ESP8266)
++               set(CMAKE_C_FLAGS "-Wall ${VISIBILITY_FLAG} ${CMAKE_C_FLAGS}" )
++    else()
+                set(CMAKE_C_FLAGS "-Wall ${VISIBILITY_FLAG} ${CMAKE_C_FLAGS}" )
+-    endif(UNIX)
++    endif()
+ endif ()
+ 
+ if ((CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX) AND NOT LWS_WITHOUT_TESTAPPS)
